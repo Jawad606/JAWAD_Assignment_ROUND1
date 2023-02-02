@@ -3,9 +3,9 @@ import { Button, Form, Input, Typography } from "antd";
 import "./Login.css";
 
 /**
- * 
+ *
  * @function Login
- * @returns {JSX.Element} - A login form with email and password input fields 
+ * @returns {JSX.Element} - A login form with email and password input fields
  */
 
 const Login = () => {
@@ -14,12 +14,14 @@ const Login = () => {
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState("");
 
+  // message color
+  const [color, setColor] = useState("");
   // useRef hook to give focus to success message element
   const succRef = useRef();
   const [sucMsg, setSucMsg] = useState("");
 
-    /**
-   * 
+  /**
+   *
    * @function onFinish
    * @param {Object} values - An object containing the email and password values from the form
    * @returns {void} - Sets success or error message based on validation
@@ -34,10 +36,12 @@ const Login = () => {
     ) {
       setErrMsg("");
       setSucMsg("Login Successfully");
+      setColor("green");
     } else {
       // set error message if validation fails
       setErrMsg("Either your password or login is incorrect");
       setSucMsg("");
+      setColor("red");
     }
     // give focus to error message element
     errRef.current.focus();
@@ -45,8 +49,8 @@ const Login = () => {
     succRef.current.focus();
   };
 
-    /**
-   * 
+  /**
+   *
    * @function onFinishFailed
    * @param {Object} errorInfo - An object containing information about the error
    * @returns {void} - Logs the error object to the console
@@ -69,12 +73,10 @@ const Login = () => {
         <div className="head">
           <img
             className="images"
-            src="https://simg.nicepng.com/png/small/216-2164737_blue-dot-pattern-png.png"
+            src={`${process.env.PUBLIC_URL}\\image\\logo.jpg`}
             alt="logo"
-            width="20"
-            height={"20"}
+            width="200"
           />
-          <Title className="custom__text">TRENDS</Title>
         </div>
 
         <Form.Item
@@ -84,26 +86,22 @@ const Login = () => {
           <Input className="custom__input" placeholder="Login" />
         </Form.Item>
 
-        <Form.Item name="password" rules={[{ required: true }]}>
+        <Form.Item
+          style={{ marginBottom: 2 }}
+          name="password"
+          rules={[{ required: true }]}
+        >
           <Input.Password className="custom__input" placeholder="Password" />
         </Form.Item>
 
-        {/* element to display error message */}
+        {/* element to display error message and success message */}
         <p
           ref={errRef}
-          style={{ color: "red", padding: 2, margin: 0 }}
+          style={{ color: color, padding: 2, margin: 2 }}
           className={errMsg ? "errmsg" : "offscreen"}
           aria-live="assertive"
         >
           {errMsg}
-        </p>
-        {/* element to display success message */}
-        <p
-          ref={succRef}
-          style={{ color: "green", padding: 2, margin: 0 }}
-          className={sucMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
           {sucMsg}
         </p>
         <Form.Item wrapperCol={{ span: 24 }}>
